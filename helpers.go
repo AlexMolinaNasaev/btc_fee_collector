@@ -7,7 +7,7 @@ import (
 )
 
 func WriteReport(report *FeeReport) error {
-	f, err := os.OpenFile("report.txt", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
+	f, err := os.OpenFile("report/report.txt", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
 	if err != nil {
 		return err
 	}

@@ -1,0 +1,5 @@
+# build docker
+docker build -t btc_fee_collector .
+
+# run docker
+docker run -d --name BTC_FEE_COLLECTOR -v /home/user/btc_fee_collector/report:/btc_fee_collector/report btc_fee_collector:latest

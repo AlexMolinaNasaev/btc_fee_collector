@@ -20,20 +20,21 @@ func main() {
 		logrus.Fatal(err)
 	}
 
-	ticker := time.NewTicker(10 * time.Minute)
+	ticker := time.NewTicker(1 * time.Minute)
 
 	blockHeigth := new(int32)
 
+	CollectData(config, blockHeigth)
 	// main loop
 	for {
 		select {
-		case t := <-ticker.C:
-			CollectData(config, t, blockHeigth)
+		case <-ticker.C:
+			CollectData(config, blockHeigth)
 		}
 	}
 }
 
-func CollectData(config *GlobalConfig, t time.Time, blockHeigth *int32) {
+func CollectData(config *GlobalConfig, blockHeigth *int32) {
 	logrus.Info("start collecting data")
 	client, err := rpcclient.New(&rpcclient.ConnConfig{
 		HTTPPostMode: true,
@@ -53,7 +54,10 @@ func CollectData(config *GlobalConfig, t time.Time, blockHeigth *int32) {
 		return
 	}
 
+	logrus.Infof("head block: %d", blockChainInfo.Blocks)
+
 	if blockChainInfo.Blocks == *blockHeigth {
+		logrus.Warn("no new blocks. skipped")
 		return
 	}
 
