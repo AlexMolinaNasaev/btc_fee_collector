@@ -24,13 +24,10 @@ func main() {
 
 	blockHeigth := new(int32)
 
-	CollectData(config, blockHeigth)
 	// main loop
 	for {
-		select {
-		case <-ticker.C:
-			CollectData(config, blockHeigth)
-		}
+		CollectData(config, blockHeigth)
+		<-ticker.C
 	}
 }
 
